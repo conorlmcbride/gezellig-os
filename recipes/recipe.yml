@@ -42,4 +42,14 @@ modules:
           - org.gnome.Loupe
       - scope: user # Also add Flathub user repo, but no user packages
 
+  - type: rpm-ostree
+    repos:
+      - 1password.repo
+      - ghostty.repo
+    keys:
+      - https://downloads.1password.com/linux/keys/1password.asc
+    install:
+      - 1password
+      - ghostty
+
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
