@@ -40,3 +40,17 @@ jobs:
 
           # enabled by default, disable if your image is small and you want faster builds
           maximize_build_space: true
+
+  keepalive:
+    # GitHub disables scheduled workflows after 60 days without repo activity;
+    # re-enabling via the API resets that timer without needing a commit
+    name: Keep Workflow Enabled
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Re-enable workflow
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/build.yml/enable"
+        env:
+          GH_TOKEN: ${{ github.token }}
