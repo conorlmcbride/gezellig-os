@@ -32,12 +32,9 @@ modules:
         - starship
         - 1password
         - ghostty
-    remove:
-      packages:
-        # example: removing firefox (in favor of the flatpak)
-        # "firefox" is the main package, "firefox-langpacks" is a dependency
+        # RPM Firefox (not the Flatpak) so the 1Password extension can reach
+        # the desktop app via native messaging; the Flatpak sandbox blocks it
         - firefox
-        - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
 
   - type: default-flatpaks
     configurations:
@@ -45,7 +42,6 @@ modules:
         scope: system
         # If no repo information is specified, Flathub will be used by default
         install: # system flatpaks we want all users to have and not remove
-          - org.mozilla.firefox
           - org.gnome.Loupe
       - scope: user # Also add Flathub user repo, but no user packages
 
