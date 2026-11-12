@@ -38,6 +38,11 @@ jobs:
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
 
+          # Dependabot runs can't read repo secrets, so SIGNING_SECRET is empty.
+          # Build to validate the change, but don't sign or push the image.
+          push: ${{ github.actor != 'dependabot[bot]' }}
+          build_opts: ${{ github.actor == 'dependabot[bot]' && '--no-sign' || ' ' }}
+
           # enabled by default, disable if your image is small and you want faster builds
           maximize_build_space: true
 
