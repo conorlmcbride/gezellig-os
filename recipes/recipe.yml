@@ -31,10 +31,15 @@ modules:
         - micro
         - starship
         - 1password
+        - 1password-cli
         - ghostty
         # RPM Firefox (not the Flatpak) so the 1Password extension can reach
         # the desktop app via native messaging; the Flatpak sandbox blocks it
         - firefox
+
+  - type: script
+    scripts:
+      - 1password-gids.sh # pin 1Password group GIDs so setgid helpers match /etc/group
 
   - type: default-flatpaks
     configurations:
