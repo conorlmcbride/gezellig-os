@@ -41,6 +41,11 @@ modules:
     scripts:
       - 1password-gids.sh # pin 1Password group GIDs so setgid helpers match /etc/group
 
+  - type: systemd
+    system:
+      enabled:
+        - onepassword-gids.service # renumber existing 1Password groups to the fixed GIDs
+
   - type: default-flatpaks
     configurations:
       - notify: true # Send notification after install/uninstall is finished (true/false)
