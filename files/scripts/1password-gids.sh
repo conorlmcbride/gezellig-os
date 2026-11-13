@@ -9,11 +9,18 @@
 #
 # Fix: chgrp the helpers to fixed numeric GIDs and ship a sysusers.d config so
 # the groups exist with those same GIDs on every machine.
+#
+# The GIDs must be >= 1000: the 1Password app rejects a helper whose group is a
+# system GID ("invalid group attempted to connect" / PipeAuthError(NoCreds)).
+# 1500+ keeps them clear of the first users' own groups. sysusers never
+# renumbers an existing group, so onepassword-gids.service applies these
+# numbers to /etc/group at boot on machines that already have the groups.
+# Keep the numbers in sync with /usr/libexec/onepassword-gids.
 set -oue pipefail
 
-ONEPASSWORD_GID=958
-ONEPASSWORD_MCP_GID=957
-ONEPASSWORD_CLI_GID=956
+ONEPASSWORD_GID=1500
+ONEPASSWORD_MCP_GID=1502
+ONEPASSWORD_CLI_GID=1501
 
 cat > /usr/lib/sysusers.d/onepassword.conf <<CONF
 g onepassword ${ONEPASSWORD_GID}
